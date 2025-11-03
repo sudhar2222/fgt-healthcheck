@@ -1,14 +1,14 @@
-#generating session key
-
 import json
 import requests
 import urllib3
 import time
 import subprocess
 
-
+fmg_ip = input("Enter FortiManager IP address: ")
+fmg_admin = input("Enter FortiManager admin username: ")
+fmg_pass = input("Enter FortiManager admin password: ")
 urllib3.disable_warnings()
-API_ENDPOINT = "https://192.168.0.115/jsonrpc"
+API_ENDPOINT = f"https://{fmg_ip}/jsonrpc"
 
 #generate session key
 
@@ -18,8 +18,8 @@ request = {
         "params": [
             {
                 "data": {
-                    "passwd": "admin",
-                    "user": "admin"
+                    "passwd": fmg_admin,
+                    "user": fmg_pass
                 },
                 "url": "/sys/login/user"
             }
@@ -32,86 +32,6 @@ session_id = parsed["session"]
 #print(session_id)
 
 def get_bgp_status():    
-    script_run_request = {
-      "method": "exec",
-      "params": [
-        {
-          "data": {
-            "adom": [
-              "adom62"
-            ],
-                    "scope": [
-              {
-                "name": "VF-1401-HQ-FGT-01",
-                "vdom": "root"
-              }
-            ],
-    
-            "script": "bgp summary"
-          },
-          "url": "/dvmdb/adom/adom62/script/execute"
-        }
-      ],
-      "session": session_id,
-      "id": 1
-    }
-    
-    script_run_response = requests.post(url=API_ENDPOINT,data=json.dumps(script_run_request),verify=False )
-    
-    time.sleep(10) 
-    
-    #getting the output of the script
-    
-    script_output_request = {
-      "method": "get",
-      "params": [
-        {
-          "url": "/dvmdb/adom/adom62/script/log/latest/device/VF-1401-HQ-FGT-01"
-        }
-      ],
-      "session": session_id,
-      "id": 1
-    }
-    
-    script_output_response = requests.post(url=API_ENDPOINT,data=json.dumps(script_output_request),verify=False )
-    
-    parsed_output = json.loads(script_output_response.text)
-    output = parsed_output["result"][0]["data"]["content"]
-    
-    return output
-    
-
-get_bgp_status()
-
-
-import json
-import requests
-import urllib3
-import time
-
-urllib3.disable_warnings()
-API_ENDPOINT = "https://192.168.0.115/jsonrpc"
-
-# Your existing function
-def get_bgp_status():
-    request = {
-        "id": 1,
-        "method": "exec",
-        "params": [
-            {
-                "data": {
-                    "passwd": "admin",
-                    "user": "admin"
-                },
-                "url": "/sys/login/user"
-            }
-        ]
-    }
-    
-    response = requests.post(url=API_ENDPOINT, data=json.dumps(request), verify=False)
-    parsed = json.loads(response.text)
-    session_id = parsed["session"]
-    
 
     fw_name = input("Enter the FortiGate device name : ")
     adom_name = input("Enter the ADOM name : ")
@@ -137,7 +57,7 @@ def get_bgp_status():
     }
     
     script_run_response = requests.post(url=API_ENDPOINT, data=json.dumps(script_run_request), verify=False)
-    time.sleep(10)
+    time.sleep(7)
     
     script_output_request = {
         "method": "get",
@@ -156,25 +76,27 @@ def get_bgp_status():
 
     return output
 
-
+    
 
 def ping(host):
     try:
         # For Linux/macOS
-        output = subprocess.check_output(["ping", "-c", "4", host], universal_newlines=True)
-        
+        output = subprocess.check_output(
+            ["ping", "-c", "4", host],
+            stderr=subprocess.STDOUT,       # Capture stderr too
+            universal_newlines=True
+        )
         return output
+
     except subprocess.CalledProcessError as e:
         print("Ping failed!")
-        
-        return None
-
+        # e.output contains the error message from ping
+        return e.output
 
 def underlay_check():
     ip = input("Enter WAN gateway IP address: ")
     ping_response = ping(ip)
     return ping_response
-
 
 def analyze_with_llm(bgp_output, underlay_output):
     """Send BGP output to Llama and get user-friendly analysis"""
