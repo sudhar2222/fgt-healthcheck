@@ -1,4 +1,4 @@
-<h1 align="center" style="font-size:42px;">🔥 FortiManager Health Check Automation 🔥</h1>
+<h1 align="center" style="font-size:42px;"> FortiManager Health Check Automation </h1>
 
 <p align="center">
 A Python-based automation tool that performs API-driven health checks on <b>FortiGate devices managed by FortiManager</b> — enhanced with a locally deployed <b>Phi-3 Mini LLM</b> for human-readable summaries.
@@ -48,9 +48,9 @@ Once the raw results are fetched, they are passed to a **locally hosted LLM (Phi
 |------------|--------------|
 | **Language** | Python 3 |
 | **API Framework** | FortiManager REST API |
-| **Model** | Phi-3 Mini (Local Deployment) |
+| **LLM Model** | Phi-3 Mini (Local Deployment) |
 | **Platform** | Linux |
-| **Libraries** | `requests`, `json`, (planned: `rich`, `argparse`, etc.) |
+
 
 ---
 
