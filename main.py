@@ -111,7 +111,7 @@ Analyze the following outputs and summarize strictly as instructed.
 INSTRUCTIONS:
 1. From the BGP output:
    - Count and report the total number of BGP neighbors.
-   - For each neighbor, mention its IP if the status is Established) or DOWN  if the status is Idle, Active, or Connect.
+   - For each neighbor, mention its IP if the status is Established or DOWN  if the status is Idle, Active, or Connect.
    - Explicitly mention if any neighbor is UP or DOWN.
 
 2. From the Ping output:
