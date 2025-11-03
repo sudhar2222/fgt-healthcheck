@@ -57,3 +57,9 @@ Once the raw results are fetched, they are passed to a **locally hosted LLM (Phi
 <h2 style="font-size:30px;">⚙️ Setup & Usage</h2>
 
 ### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/sudhar2222/fgt-healthcheck.git
+cd fortigate-health-check
+
+
