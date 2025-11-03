@@ -3,6 +3,7 @@ import requests
 import urllib3
 import time
 import subprocess
+import pandas as pd
 
 fmg_ip = input("Enter FortiManager IP address: ")
 fmg_admin = input("Enter FortiManager admin username: ")
