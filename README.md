@@ -56,10 +56,37 @@ Once the raw results are fetched, they are passed to a **locally hosted LLM (Phi
 
 <h2 style="font-size:30px;">⚙️ Setup & Usage</h2>
 
+
+✅ Prerequisites
+
+Before running this project, make sure the following components are installed and available:
+
+1. Ollama (for running Phi-3 Mini locally)
+
+This project relies on a locally hosted LLM to interpret API results.
+
+Install Ollama on your Linux machine:
+
+curl -fsSL https://ollama.com/install.sh | sh
+
+
+Then download the Phi-3 Mini model:
+
+ollama pull phi3:mini
+
+
+Verify it’s working:
+
+ollama run phi3:mini
+
+
 ### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/sudhar2222/fgt-healthcheck.git
 cd fortigate-health-check
 
+python3 main.py
+```
 
+Provide the credentials as input or you can hardcode the passwords for simplicity.
